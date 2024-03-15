@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const crypto = require("crypto");
-const UserModel = require("../../common/models/user");
+const UserModel = require("../../common/models/User");
 
 
 const { roles, jwtSecret, jwtExpireInSeconds } = require('../../config');
