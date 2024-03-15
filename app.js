@@ -9,7 +9,7 @@ const PORT = process.env.PORT || port;
 
 //models
 
-const UserModel = require("./common/models/user");
+const UserModel = require("./common/models/users");
 const PostModel = require("./common/models/Posts");
 const ReactionsModel = require("./common/models/Reactions")
 // const ProductModel = require("./common/models/Product");
