@@ -1,4 +1,4 @@
-const UserModel = require('../common/models/user');
+const UserModel = require('../common/models/User');
 
 module.exports = {
     getUser: (req, res) => {
@@ -50,14 +50,26 @@ module.exports = {
                 });
             });
     },
+    getAllUsers: (req, res) => {
+        UserModel.findAllUsers()
+        .then((user) => {
+            return res.status(200).json({
+                status: true,
+                data: user.toJSON()
+            })
+        }).catch((err) => {
+            return res.status(500).json({
+                status: false,
+                error: err
+            })
+        })
+    },
 
     deleteUser: (req, res) => {
 
     },
 
-    getAllUsers: (req, res) => {
-
-    },
+    
     changeRole: (req, res) => {
 
     }

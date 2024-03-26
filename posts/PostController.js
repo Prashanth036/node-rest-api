@@ -19,6 +19,22 @@ module.exports={
                     message:err} 
             })})
     },
+    getPostsByUser:(req,res)=>{
+        const {user:{username}}=req; 
+        const data=req.body;
+        PostModel.getPostsByUsername({username:username})
+        .then((post)=>{
+            return res.status(200).json({
+                status:true,
+                data: post
+            })
+        }).catch((err)=>{
+            return res.status(500).json({
+                status:false,
+                error:{
+                    message:err} 
+            })})
+    },
     createPost:(req,res)=>{
         const {user:{username}}=req;
         const data=req.body;
@@ -30,11 +46,12 @@ module.exports={
             ,{username:username}
             )
             )
-        .then(data=>{
-        if(data){
-            ReactionsModel.reactionAdded({postId:data.id})
-            .then((data)=>console.log(data)).catch((err)=>console.log(err))
-        } 
+        .then(async data=>{
+            let reactionData=await ReactionsModel.reactionAdded({postId:data.id})
+            .then((dataEmotes)=> dataEmotes).catch((err)=>console.log(err))
+        
+        data.dataValues.reaction=reactionData;
+        console.log(data)
            return res.status(200).json({
             status:true,
             data:data
@@ -54,6 +71,61 @@ module.exports={
                 data:data
             })
          })
+    },
+    deletePost:(req,res)=>{
+        const {
+            params:{postId}
+        }=req
+
+        PostModel.deletePost({id:postId})
+        .then(deletedPost=>{
+            return res.status(200).json({
+                status: true,
+                data: {
+                    MESSAGE:'SUCCESS',
+                  deletedPost: deletedPost
+                },
+              });
+            })
+            .catch((err) => {
+              return res.status(500).json({
+                status: false,
+                error: err,
+              });})
+    },
+    updatePost:(req,res)=>{
+        const {user:{username}}=req;
+
+     const {   params:{postId},
+        body: payload,
+      } = req;
+  
+      
+      if (!Object.keys(payload).length) {
+        return res.status(400).json({
+          status: false,
+          error: {
+            message: "Body is empty, hence can not update the user.",
+          },
+        });
+      }
+
+      PostModel.updatePost({id:postId},payload)
+      .then(() => {
+        return PostModel.findPost({id:postId });
+      })
+      .then((post) => {
+        return res.status(200).json({
+          status: true,
+          data: post.toJSON(),
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          status: false,
+          error: err,
+        });
+      });
     }
 
 }

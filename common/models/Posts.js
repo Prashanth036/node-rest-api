@@ -18,7 +18,7 @@ const PostModel = {
     title: {
         type: DataTypes.STRING,
         autoNull: false,
-        unique: true
+        // unique: true
     },
     username: {
         type: DataTypes.STRING,
@@ -28,7 +28,7 @@ const PostModel = {
     content: {
         type: DataTypes.STRING,
         autoNull: false,
-        unique: true
+        // unique: true
     }
 }
 
@@ -55,6 +55,24 @@ module.exports = {
     },
     getAllPosts: () => {
         return this.model.findAll({include: this.reaction});
-    }
+    },
+    getPostsByUsername:(query) =>{
+        return this.model.findAll({where:query,include: this.reaction})
+    },
+    findPost: (query) => {
+        return this.model.findOne({
+          where: query,include: this.reaction
+        });
+      },
+    updatePost: (query, updateValue) => {
+        return this.model.update(updateValue, {
+            where: query
+        })
+    },
+    deletePost: (query) => {
+        return this.model.destroy({
+            where: query
+        })
+    },
 }
 

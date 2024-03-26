@@ -59,15 +59,15 @@ module.exports = {
 
     },
     login: (req, res) => {
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
-        UserModel.findUser({ username })
+        UserModel.findUser({ email })
             .then((user) => {
                 if (!user) {
                     return res.status(400).json({
                         status: false,
                         error: {
-                            message: `Could not find any user with username: \`${username}\`.`,
+                            message: `Could not find any user with email: \`${email}\`.`,
                         }
                     })
                 }
@@ -78,7 +78,7 @@ module.exports = {
                     return res.status(400).json({
                         status: false,
                         error: {
-                            message: `Provided username and password did not match.`
+                            message: `Provided email and password did not match.`
                         }
                     })
                 }

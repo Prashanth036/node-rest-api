@@ -2,6 +2,7 @@ const router= require("express").Router();
 
 
 const AuthorizationController= require('./controllers/AuthorizationController');
+const UserController=require("../users/UserController");
 
 const SchemaValidationMiddleware = require('../common/middlewares/schemaValidationMiddleware')
 
@@ -17,12 +18,12 @@ router.post(
 
 router.post(
     "/login",
-    [SchemaValidationMiddleware.verify(loginpayload),
-    AuthorizationController.login]
+    [SchemaValidationMiddleware.verify(loginpayload)],
+    AuthorizationController.login
 )
 
 router.get(
-    "getAll",
+    "/getAllUsers",UserController.getAllUsers
 )
 
 module.exports = router

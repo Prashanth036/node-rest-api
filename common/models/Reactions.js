@@ -1,4 +1,4 @@
-const { DataTypes, where } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const PostModel = require("./Posts")
 
 
@@ -59,18 +59,21 @@ module.exports = {
         // return Post
     },
     reactionAdded: (query) => {
-
         return this.model.create(query);
     },
-    updateReactions: (query, upateReaction) => {
+    updateReactions: (query) => {
+        // console.log(query)
         return this.model.update(
-            upateReaction,
+            query,
             {
-                where: query,
+                where: {postId:query.postId},
             }
         )
     },
-    getAllReactionsById: () => {
-        return this.model.findAll()
+    getAllReactionsById: (query) => {
+        console.log(query)
+        return this.model.findOne({
+            where:query
+        })
     }
 }

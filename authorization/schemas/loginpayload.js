@@ -1,7 +1,7 @@
 module.exports = {
     type: 'object',
     properties: {
-        username: {
+        email: {
             type: 'string'
         },
         password: {
@@ -9,7 +9,7 @@ module.exports = {
         }
     },
     required: [
-        'username',
+        'email',
         'password'
     ],
     additionalProperties: false
