@@ -25,7 +25,10 @@ app.use(cors());
 app.use(express.json());
 
 
-const sequelize = new Sequelize('sqlite::memory:');
+const sequelize = new Sequelize({
+  dialect: "sqlite",
+  storage: "./storage/data.db", // Path to the file that will store the SQLite DB.
+});
 // Initialising the Model on sequelize
 // 
 UserModel.initialise(sequelize);
