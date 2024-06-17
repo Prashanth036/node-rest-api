@@ -26,4 +26,8 @@ router.get(
     "/getAllUsers",UserController.getAllUsers
 )
 
+router.post(
+    "/user",UserController.getUser
+)
+
 module.exports = router

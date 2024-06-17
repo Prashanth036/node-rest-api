@@ -2,20 +2,22 @@ const UserModel = require('../common/models/User');
 
 module.exports = {
     getUser: (req, res) => {
-        const {
-            user: { userId }
-        } = req;
+        // const {
+        //     user: { userId }
+        // } = req;
+        const userId=req.body.userId
+        console.log(userId)
         UserModel.findUser({ id: userId })
             .then((user) => {
 
                 return res.status(200).json({
                     status: true,
-                    data: user.toJSON()
+                    data: user
                 })
             }).catch((err) => {
                 return res.status(500).json({
                     statys: false,
-                    error: err
+                    error: `${err}`
                 })
             })
     },
@@ -55,12 +57,12 @@ module.exports = {
         .then((user) => {
             return res.status(200).json({
                 status: true,
-                data: user.toJSON()
+                data: user
             })
         }).catch((err) => {
             return res.status(500).json({
                 status: false,
-                error: err
+                error: `${err} some error`
             })
         })
     },

@@ -3,6 +3,15 @@ const ReactionsModel=require('../common/models/Reactions')
 
 
 module.exports={
+  msg:"",
+  sentNotifs:(io,socket,notifis)=>{
+    if(this.msg!==undefined){
+       notifis.push(this.msg);
+       console.log(notifis);
+       this.msg=undefined
+    }
+    io.emit("welMsgs",notifis);
+  },
     getAllPosts:(req,res)=>{
         // PostModel.hasMany(ReactionsModel,{foreignKey: 'post_id'});
         // ReactionsModel.belongsTo(PostModel,{foreignKey: 'post_id'});
@@ -52,6 +61,7 @@ module.exports={
         
         data.dataValues.reaction=reactionData;
         console.log(data)
+        this.msg=`${username} posted:${data.dataValues.title} #check it out`;
            return res.status(200).json({
             status:true,
             data:data
